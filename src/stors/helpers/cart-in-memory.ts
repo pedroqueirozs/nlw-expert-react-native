@@ -1,5 +1,5 @@
 import { ProductProps } from "@/utils/data/products";
-import { ProductCartProps } from "../cardStore";
+import { ProductCartProps } from "../cartStore";
 
 export function add (products: ProductCartProps[],newProduct:ProductProps){
     const existInProduct = products.find(({id}) => newProduct.id ===id)
@@ -12,4 +12,14 @@ export function add (products: ProductCartProps[],newProduct:ProductProps){
         )
     }
     return [...products, {...newProduct, quantity:1}]
+}
+
+export function remove(products:ProductCartProps[],productRemoveId:string){
+    const updatedProducts = products.map((product)=>
+    product.id === productRemoveId?{
+        ...product,
+        quantity:product.quantity>1? product.quantity -1: 0
+    }:product)
+
+    return updatedProducts.filter((product)=> product.quantity>0)
 }
